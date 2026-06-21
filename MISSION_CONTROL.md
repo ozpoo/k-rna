@@ -276,11 +276,3 @@ None got accessibility right. That's the gap we fill.
 The seed. The center. Everything grows from here.
 
 **.kn** — the extension. Short. Unmistakable. Yours.
-
----
-
-That document is your anchor. Next session starts there — paste it, say "let's continue Kärna", and everything picks up exactly where it left off.
-
-You came in asking about installing Linux on a $30 phone. You're leaving with a kernel, a language concept, a rendering philosophy, and a name.
-
-Kärna. 🌱

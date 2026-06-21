@@ -5,7 +5,9 @@ No OS. No libc. No runtime. Just code and hardware.
 
 Built on a 2017 Intel MacBook Pro, developed in Helix, run in QEMU.
 
-My honest favorite for what you're building is Kärna — it means kernel/core in Swedish, nods to your heritage, sounds distinct, and philosophically it's exactly right. The core. The seed. Everything else grows from here.
+Started by trying to install Linux on a $30 phone. Left with a kernel, a language concept, a rendering philosophy, and a name.
+
+Kärna. 🌱
 
 ---
 
