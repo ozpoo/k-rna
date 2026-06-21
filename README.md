@@ -1,4 +1,4 @@
-# mykernel
+# Kärna 🌱
 
 A minimal, open kernel built from scratch targeting x86, with ARM planned.
 No OS. No libc. No runtime. Just code and hardware.
@@ -7,7 +7,7 @@ Built on a 2017 Intel MacBook Pro, developed in Helix, run in QEMU.
 
 Started by trying to install Linux on a $30 phone. Left with a kernel, a language concept, a rendering philosophy, and a name.
 
-Kärna. 🌱
+Kärna.
 
 ---
 
@@ -86,7 +86,7 @@ make clean    # clean build artifacts
 ## Project structure
 
 ```
-mykernel/
+kärna/
 ├── boot/
 │   └── boot.asm          # multiboot entry, BSS zero, stack setup
 ├── kernel/
