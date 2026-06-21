@@ -5,6 +5,8 @@ No OS. No libc. No runtime. Just code and hardware.
 
 Built on a 2017 Intel MacBook Pro, developed in Helix, run in QEMU.
 
+My honest favorite for what you're building is Kärna — it means kernel/core in Swedish, nods to your heritage, sounds distinct, and philosophically it's exactly right. The core. The seed. Everything else grows from here.
+
 ---
 
 ## Philosophy
@@ -13,6 +15,13 @@ Built on a 2017 Intel MacBook Pro, developed in Helix, run in QEMU.
 - Open — anyone can read it, run it, hack it
 - Educational — the codebase is meant to be understood, not just used
 - Portable — architecture layer designed for clean porting to ARM
+
+agency        — you control it, it doesn't control you
+opportunity   — accessible to anyone
+growth        — learning is the point
+fairness      — open, no gatekeeping
+efficiency    — no fat, no waste
+reusability   — portable, hackable
 
 ---
 
@@ -160,24 +169,3 @@ callee-saved registers, swaps esp, restores. Pure asm, no compiler interference.
 Not yet — QEMU only for now. Real hardware boot via USB planned after
 VBE framebuffer is working. The Intel MacBook Pro is the first real target.
 Samsung Galaxy Tab (ARM) is second.
-
-EOF
-```
-
-```bash
-make clean && make run
-```
-
-Actually no — no need to rebuild, just:
-
-```bash
-cat README.md
-```
-
-Make sure it looks right, then:
-
-```bash
-git init
-git add .
-git commit -m "mykernel v0.6 — multitasking, paging, keyboard, config"
-```
