@@ -63,6 +63,14 @@ Paging enabled. Physical memory managed via bitmap allocator.
 brew install x86_64-elf-gcc x86_64-elf-binutils nasm qemu helix
 ```
 
+#### Verify Setup
+
+```bash
+x86_64-elf-gcc --version
+nasm --version
+qemu-system-x86_64 --version
+```
+
 ### Build and run
 
 ```bash
