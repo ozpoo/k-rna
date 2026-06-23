@@ -14,7 +14,6 @@ stack_bottom:
     resb 65536
 stack_top:
 
-; separate interrupt stack — never swapped
 int_stack_bottom:
     resb 16384
 int_stack_top:
@@ -29,13 +28,17 @@ extern _bss_end
 _start:
     mov esp, stack_top
 
+    ; zero BSS
     mov edi, _bss_start
     mov ecx, _bss_end
     sub ecx, edi
     xor eax, eax
     rep stosb
 
+    ; ebx = multiboot info pointer — pass as argument to kernel_main
+    push ebx
     call kernel_main
+
     cli
 hang:
     hlt

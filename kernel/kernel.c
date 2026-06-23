@@ -1,3 +1,4 @@
+#include "config.h"
 #include "vga.h"
 #include "idt.h"
 #include "pic.h"
@@ -6,7 +7,7 @@
 #include "vmm.h"
 #include "pit.h"
 #include "task.h"
-#include "config.h"
+#include "multiboot.h"
 
 void task_a(void) {
     int count = 0;
@@ -26,7 +27,7 @@ void task_a(void) {
             for (int i = len - 1; i >= 0; i--)
                 vga[22 * 80 + col++] = (unsigned short)buf[i] | (0x0E << 8);
         }
-        schedule();  /* voluntarily yield */
+        schedule();
     }
 }
 
@@ -48,16 +49,19 @@ void task_b(void) {
             for (int i = len - 1; i >= 0; i--)
                 vga[23 * 80 + col++] = (unsigned short)buf[i] | (0x0E << 8);
         }
-        schedule();  /* voluntarily yield */
+        schedule();
     }
 }
 
-void kernel_main(void) {
+void kernel_main(multiboot_info_t* mb) {
     vga_hide_cursor();
     vga_clear();
 
-    vga_print("mykernel v0.6\n", 0x0F);
-    vga_print("==============\n\n", 0x0F);
+    vga_print("Karna v0.7\n", 0x0F);
+    vga_print("==========\n\n", 0x0F);
+
+    multiboot_parse(mb);
+    vga_print("\n", 0x0F);
 
     idt_install();
     vga_print("[IDT]      ", 0x0B);
@@ -71,7 +75,7 @@ void kernel_main(void) {
     vga_print("[KEYBOARD] ", 0x0B);
     vga_print("ready\n", 0x0A);
 
-    pmm_install();
+    pmm_install(mb);
     vga_print("[PMM]      ", 0x0B);
     vga_print_int(pmm_free_pages(), 0x0E);
     vga_print(" pages free\n", 0x0A);
@@ -88,7 +92,7 @@ void kernel_main(void) {
 
     pit_install(CFG_PIT_HZ);
     vga_print("[PIT]      ", 0x0B);
-    vga_print("timer at 100Hz\n\n", 0x0A);
+    vga_print("timer ready\n\n", 0x0A);
 
     vga_print("scheduler running — two tasks below:\n", 0x0F);
     vga_print("type something:  ", 0x0E);
@@ -96,6 +100,5 @@ void kernel_main(void) {
     __asm__ volatile ("sti");
     task_start();
 
-    /* never reached */
     while (1) { __asm__ volatile ("hlt"); }
 }

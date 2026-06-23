@@ -7,9 +7,11 @@
 #define CFG_VGA_ADDR        0xB8000
 
 /* ─── memory ──────────────────────────────────────────────── */
-#define CFG_MEMORY_MB       32
+// #define CFG_MEMORY_MB       32
+#define CFG_MEMORY_MB       128
 #define CFG_PAGE_SIZE       4096
-#define CFG_MAX_PAGES       8192        /* CFG_MEMORY_MB / 4KB */
+// #define CFG_MAX_PAGES       8192        /* 32MB / 4KB */
+#define CFG_MAX_PAGES       32768    /* 128MB / 4KB */
 #define CFG_KERNEL_PAGES    512         /* reserved for kernel (2MB) */
 #define CFG_BITMAP_ADDR     0x200000
 #define CFG_PAGE_DIR_ADDR   0x201000
