@@ -20,11 +20,6 @@ void pit_handler(void) {
     /* just count ticks, no switching */
 }
 
-/* pit_isr:
-   1. save context onto current task's stack
-   2. call pit_handler to pick next task
-   3. if need_switch: swap esp and restore next task's context
-   4. iret into next task */
 __asm__(
     ".global pit_isr\n"
     "pit_isr:\n"

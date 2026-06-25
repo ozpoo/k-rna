@@ -60,3 +60,10 @@ void vga_print_int(int n, unsigned char color) {
     for (int j = i - 1; j >= 0; j--)
         vga_putchar(buf[j], color);
 }
+
+void vga_print_hex(unsigned int n, unsigned char color) {
+    const char* hex = "0123456789ABCDEF";
+    vga_print("0x", color);
+    for (int i = 28; i >= 0; i -= 4)
+        vga_putchar(hex[(n >> i) & 0xF], color);
+}

@@ -53,14 +53,24 @@ void task_b(void) {
     }
 }
 
-void kernel_main(multiboot_info_t* mb) {
+void kernel_main(uint32_t magic, void* mb_ptr) {
     vga_hide_cursor();
     vga_clear();
 
     vga_print("Karna v0.7\n", 0x0F);
     vga_print("==========\n\n", 0x0F);
 
-    multiboot_parse(mb);
+    if (magic == 0x36D76289) {
+        vga_print("[BOOT] multiboot2\n", 0x0A);
+        multiboot_parse(magic, mb_ptr);
+    } else if (magic == 0x2BADB002) {
+        vga_print("[BOOT] multiboot1\n", 0x0A);
+        multiboot1_parse((multiboot1_info_t*)mb_ptr);
+    } else {
+        vga_print("[BOOT] unknown magic: ", 0x0C);
+        vga_print_hex(magic, 0x0C);
+        vga_print("\n", 0x0C);
+    }
     vga_print("\n", 0x0F);
 
     idt_install();
@@ -75,10 +85,12 @@ void kernel_main(multiboot_info_t* mb) {
     vga_print("[KEYBOARD] ", 0x0B);
     vga_print("ready\n", 0x0A);
 
-    pmm_install(mb);
+    pmm_install(&g_mb_info);
     vga_print("[PMM]      ", 0x0B);
     vga_print_int(pmm_free_pages(), 0x0E);
-    vga_print(" pages free\n", 0x0A);
+    vga_print(" pages free / ", 0x0A);
+    vga_print_int(pmm_total_pages(), 0x0E);
+    vga_print(" total\n", 0x0A);
 
     vmm_install();
     vga_print("[VMM]      ", 0x0B);
@@ -94,7 +106,7 @@ void kernel_main(multiboot_info_t* mb) {
     vga_print("[PIT]      ", 0x0B);
     vga_print("timer ready\n\n", 0x0A);
 
-    vga_print("scheduler running — two tasks below:\n", 0x0F);
+    vga_print("scheduler running two tasks below:\n", 0x0F);
     vga_print("type something:  ", 0x0E);
 
     __asm__ volatile ("sti");

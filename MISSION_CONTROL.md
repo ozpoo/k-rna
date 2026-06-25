@@ -270,6 +270,18 @@ None got accessibility right. That's the gap we fill.
 
 ---
 
+### Session 2 (2026)
+- v0.7: Multiboot info parsing complete
+- Dual MB1/MB2 headers in boot.asm
+- Real RAM detection — 127MB via multiboot1_parse
+- PMM driven by actual memory map
+- Added vga_print_hex — was printing decimal all along!
+- magic: 0x2BADB002 confirmed working
+- Tasks + keyboard still solid
+- Next: v0.8 VBE framebuffer
+
+---
+
 ## Name
 
 **Kärna** — Swedish for kernel/core.

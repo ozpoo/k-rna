@@ -41,42 +41,31 @@ static void pmm_reserve_region(uint32_t addr, uint32_t len) {
 }
 
 void pmm_install(multiboot_info_t* mb) {
-    /* start with everything reserved */
     for (int i = 0; i < MAX_PAGES / 8; i++)
         bitmap[i] = 0xFF;
 
     if (mb && (mb->flags & MB_FLAG_MMAP)) {
-        /* walk the real memory map and free available regions */
-        multiboot_mmap_t* entry = (multiboot_mmap_t*)mb->mmap_addr;
-        multiboot_mmap_t* end   = (multiboot_mmap_t*)(mb->mmap_addr + mb->mmap_length);
+        multiboot1_mmap_t* entry = (multiboot1_mmap_t*)mb->mmap_addr;
+        multiboot1_mmap_t* end   = (multiboot1_mmap_t*)(mb->mmap_addr + mb->mmap_length);
 
         while (entry < end) {
             if (entry->type == MB_MMAP_AVAILABLE)
                 pmm_free_region(entry->addr_low, entry->len_low);
-            entry = (multiboot_mmap_t*)((uint32_t)entry + entry->size + 4);
+            entry = (multiboot1_mmap_t*)((uint32_t)entry + entry->size + 4);
         }
 
-        /* calculate total tracked pages from actual RAM */
         total_pages_count = (mb->mem_upper * 1024) / PAGE_SIZE;
         if (total_pages_count > MAX_PAGES)
             total_pages_count = MAX_PAGES;
     } else {
-        /* fallback to config value if no mmap */
         total_pages_count = (CFG_MEMORY_MB * 1024 * 1024) / PAGE_SIZE;
         pmm_free_region(CFG_KERNEL_PAGES * PAGE_SIZE,
                         total_pages_count * PAGE_SIZE);
     }
 
-    /* always reserve the low 2MB — kernel, page tables, bitmap live here */
     pmm_reserve_region(0x0, 0x200000);
-
-    /* reserve our bitmap itself */
     pmm_reserve_region(CFG_BITMAP_ADDR, MAX_PAGES / 8);
-
-    /* reserve page directory and tables */
     pmm_reserve_region(CFG_PAGE_DIR_ADDR, PAGE_SIZE * 3);
-
-    /* reserve task stacks */
     pmm_reserve_region(CFG_STACK_BASE, CFG_MAX_TASKS * CFG_STACK_SIZE);
 }
 
